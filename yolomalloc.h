@@ -11,7 +11,7 @@
 /* Allocating dat memory like a boss */
 void *yolomalloc(size_t size);
 
-#ifndef YOLO
+#ifdef I_AM_NOT_SWAG
 /* Error 404: swag not found */
 void yolofree(void *ptr);
 #endif
