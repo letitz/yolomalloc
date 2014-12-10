@@ -15,8 +15,8 @@
 
 /* Defines */
 
-#define YOLO_WORD  (sizeof(long))
-#define YOLO_DWORD (2 * sizeof(long))
+#define YOLO_WORD  (sizeof(intptr_t))
+#define YOLO_DWORD (2 * YOLO_WORD)
 #define YOLO_CHUNK 8192
 
 /* Globals */
@@ -45,12 +45,13 @@ void *yolomalloc(size_t size) {
             return NULL;
         }
     }
-    int size_w = (size + (YOLO_WORD-1)) / YOLO_WORD; // size in words
-    int align_dw = ((size_w + 1) / 2) * 2; // round size_w to dword
+    intptr_t size_w = (size + (YOLO_WORD-1)) / YOLO_WORD; // size in words
+    intptr_t align_dw = ((size_w + 1) / 2) * 2; // round size_w to dword
     void *ptr = sbrk(align_dw);
     if (ptr == (void*) -1) {
         return NULL;
     }
+    yolo_end = ptr + align_dw;
     return ptr;
 }
 
